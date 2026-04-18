@@ -54,6 +54,57 @@
     }
 
     /* =============================================
+       SIDE SCROLLING TEXT BANNERS
+    ============================================= */
+    .side-banner {
+      position: fixed;
+      top: 0;
+      width: 48px;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .side-banner.left  { left: 0; }
+    .side-banner.right { right: 0; }
+
+    .banner-track {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      animation: scroll-down 18s linear infinite;
+      white-space: nowrap;
+    }
+
+    /* Right banner scrolls upward */
+    .side-banner.right .banner-track {
+      animation: scroll-up 18s linear infinite;
+    }
+
+    .banner-word {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #2a6040;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      font-family: Georgia, serif;
+    }
+
+    @keyframes scroll-down {
+      0%   { transform: translateY(-50%); }
+      100% { transform: translateY(0%); }
+    }
+
+    @keyframes scroll-up {
+      0%   { transform: translateY(0%); }
+      100% { transform: translateY(-50%); }
+    }
+    /* =============================================
        YEAR COUNTER
     ============================================= */
     #year-counter {
@@ -287,18 +338,51 @@
       color: #d0aa60;
     }
 
+    div.slide-down {
+  width:100%;
+  overflow:hidden;
+}
+div.slide-down p {
+  animation: 10s slide-down;
+  margin-top:0%;
+}
+
+@keyframes slide-down {
+  from {
+    margin-top: -100%;
+    height: 300%; 
+  }
+
+  to {
+    margin-top: 0%;
+    height: 100%;
+  }
+}
+
+
   </style>
 </head>
 <body>
 
+
+
+  <!-- LEFT BANNER -->
+  <div class="side-banner left">
+    <div class="banner-track" id="left-track"></div>
+  </div>
+
+  <!-- RIGHT BANNER -->
+  <div class="side-banner right">
+    <div class="banner-track" id="right-track"></div>
+  </div>
   <!-- =============================================
        MAIN GAME VIEW
   ============================================= -->
   <div id="app">
 
     <div id="title"> <b>DON'T GO BROKE!</b> </div>
-
-    <div id="year-counter">Year 1</div>
+     <div class="slide-down">  <p>Slide down... </p>  </div>
+    <div id="year-counter">Week 1</div>
 
     <!-- STAT BARS -->
     <div id="stats">
@@ -372,6 +456,30 @@
        JAVASCRIPT
   ============================================= -->
   <script>
+    // -----------------------------------------------
+    // BUILD LOOPING SIDE BANNERS
+    // -----------------------------------------------
+    const bannerWords = [
+      'invest', 'save', 'budget', 'spend', 'earn',
+      'wealth', 'risk', 'profit', 'loss', 'grow',
+      'stocks', 'bonds', 'cash', 'credit', 'debt',
+      'happy', 'career', 'broke', 'rich', 'hustle'
+    ];
+
+    function buildBanner(trackId) {
+      const track = document.getElementById(trackId);
+      // Duplicate the list so the loop is seamless (2x content)
+      const doubled = [...bannerWords, ...bannerWords];
+      doubled.forEach(word => {
+        const el = document.createElement('span');
+        el.className = 'banner-word';
+        el.textContent = word;
+        track.appendChild(el);
+      });
+    }
+
+    buildBanner('left-track');
+    buildBanner('right-track');
 
     // -----------------------------------------------
     // 1. CARD DATA
@@ -560,7 +668,7 @@
         document.getElementById('bar-' + key).style.width = clamped + '%';
         document.getElementById('val-' + key).textContent  = clamped;
       }
-      document.getElementById('year-counter').textContent = 'Year ' + year;
+      document.getElementById('year-counter').textContent = 'Week ' + year;
     }
 
     // -----------------------------------------------
@@ -603,7 +711,7 @@
     function showDeath(stat, type) {
       document.getElementById('app').style.display          = 'none';
       document.getElementById('death-screen').style.display = 'flex';
-      document.getElementById('death-title').textContent    = 'Your reign lasted ' + year + ' years';
+      document.getElementById('death-title').textContent    = 'Your reign lasted ' + year + ' weeks';
       document.getElementById('death-reason').textContent   = deathReasons[stat][type];
     }
 
