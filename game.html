@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 
-  <title><strong>DON'T GO BROKE!</strong></b></title>
+  <title>DON'T GO BROKE!</title>
 
 
   <style>
@@ -290,12 +290,26 @@
 </head>
 <body>
 
+<audio autoplay loop id="bg-music">
+  <source src="Apple.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  // This listens for the very first click anywhere on the page
+  document.body.addEventListener('click', function() {
+    var audio = document.getElementById("bg-music");
+    // If the audio is paused (blocked by browser), this click will force it to play
+    if (audio.paused) {
+      audio.play();
+    }
+  }, { once: true }); // The 'once: true' ensures this only triggers on the first click
+</script>
   <!-- =============================================
        MAIN GAME VIEW
   ============================================= -->
   <div id="app">
 
-    <div id="title"> DON'T GO BROKE! </div>
+    <div id="title"> <b>DON'T GO BROKE!</b> </div>
 
     <div id="year-counter">Year 1</div>
 
