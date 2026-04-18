@@ -3,15 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<<<<<<< Updated upstream
 
-  <title>Don't Go Broke – A Game about financial Literacy</title>
 
   <title>DON'T GO BROKE!</title>
 
-=======
-  <title>Don't Go Broke – A Game about financial Literacy</title>
->>>>>>> Stashed changes
   <style>
 
     /* =============================================
@@ -49,10 +44,10 @@
        HEADER / TITLE
     ============================================= */
     #title {
-      font-size: 15px;
+      font-size: 11px;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: #ce2525;
+      color: #a08840;
       margin-bottom: 1.5rem;
     }
 
@@ -61,13 +56,13 @@
     ============================================= */
     #year-counter {
       font-size: 13px;
-      color: #ce2525;
+      color: #8a7a50;
       margin-bottom: 1rem;
       letter-spacing: 0.1em;
     }
 
     /* =============================================
-       STAT BARS (Investments / People / Army / Treasury)
+       STAT BARS (Investments / Happiness / Army / Treasury)
     ============================================= */
     #stats {
       display: flex;
@@ -92,7 +87,7 @@
       font-size: 9px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #ce2525;
+      color: #7a6a40;
       margin-bottom: 4px;
       font-family: Georgia, serif;
     }
@@ -100,7 +95,7 @@
     .stat-bar-bg {
       width: 100%;
       height: 5px;
-      background: #7d2828;
+      background: #2e2410;
       border-radius: 3px;
       overflow: hidden;
     }
@@ -138,14 +133,14 @@
       padding: 4px 14px;
       border-radius: 20px;
       border: 1px solid #3a2e18;
-      color: #e01f1f;
+      color: #6a5a30;
       letter-spacing: 0.05em;
       transition: background 0.2s, color 0.2s, border-color 0.2s;
       font-family: Georgia, serif;
     }
 
     .choice-label.active-no {
-      background: #510b0b;
+      background: #3a1a1a;
       color: #d07a7a;
       border-color: #a04040;
     }
@@ -172,7 +167,7 @@
       height: 100%;
 
       /* Parchment look */
-      background: #5e0c0c;
+      background: #2a1e08;
       border: 1px solid #4a3a18;
       border-radius: 12px;
       padding: 1.75rem 1.5rem 1.5rem;
@@ -305,9 +300,9 @@
         <div class="stat-icon">💸</div>
         <div class="stat-label">Investments</div>
         <div class="stat-bar-bg">
-          <div class="stat-bar church" id="bar-church" style="width: 50%"></div>
+          <div class="stat-bar Investments" id="bar-investments" style="width: 50%"></div>
         </div>
-        <div class="stat-val" id="val-church">50</div>
+        <div class="stat-val" id="val-investments">50</div>
       </div>
 
       <div class="stat">
@@ -384,71 +379,71 @@
         name: "The Bishop",
         portrait: "👨‍⚖️",
         text: "Your Grace, shall we build a new cathedral to honour God?",
-        no:  { label: "Refuse",  effects: { church: -15, people:   5, army:  0, treasury:  10 } },
-        yes: { label: "Build it", effects: { church:  20, people:  -5, army:  0, treasury: -20 } }
+        no:  { label: "Refuse",  effects: { Investments: -15, people:   5, army:  0, treasury:  10 } },
+        yes: { label: "Build it", effects: { Investments:  20, people:  -5, army:  0, treasury: -20 } }
       },
       {
         name: "The General",
         portrait: "⚔️",
         text: "My liege, our army grows restless. Shall we march to war?",
-        no:  { label: "Stand down", effects: { church:  5, people:  5, army: -20, treasury:  10 } },
-        yes: { label: "To war!",    effects: { church:  0, people: -10, army:  20, treasury: -25 } }
+        no:  { label: "Stand down", effects: { Investments:  5, people:  5, army: -20, treasury:  10 } },
+        yes: { label: "To war!",    effects: { Investments:  0, people: -10, army:  20, treasury: -25 } }
       },
       {
         name: "The Farmer",
         portrait: "👨‍🌾",
         text: "The harvest is poor, Sire. Shall we lower taxes to help the peasants?",
-        no:  { label: "No mercy",   effects: { church:  0, people: -20, army:  0, treasury:  15 } },
-        yes: { label: "Lower them", effects: { church:  0, people:  20, army:  5, treasury: -15 } }
+        no:  { label: "No mercy",   effects: { Investments:  0, people: -20, army:  0, treasury:  15 } },
+        yes: { label: "Lower them", effects: { Investments:  0, people:  20, army:  5, treasury: -15 } }
       },
       {
         name: "The Treasurer",
         portrait: "🧮",
         text: "Your Majesty, a merchant offers a lucrative trade deal. Shall we accept?",
-        no:  { label: "Decline", effects: { church:  5, people:  0, army:  0, treasury:  -5 } },
-        yes: { label: "Accept",  effects: { church:  0, people: 10, army:  0, treasury:  20 } }
+        no:  { label: "Decline", effects: { Investments:  5, people:  0, army:  0, treasury:  -5 } },
+        yes: { label: "Accept",  effects: { Investments:  0, people: 10, army:  0, treasury:  20 } }
       },
       {
         name: "The Witch",
         portrait: "🧙‍♀️",
         text: "I can curse your enemies for a modest fee. What say you, my liege?",
-        no:  { label: "Begone!",    effects: { church:  10, people:  5, army: -5, treasury:   0 } },
-        yes: { label: "Do it",      effects: { church: -20, people: -5, army: 10, treasury: -15 } }
+        no:  { label: "Begone!",    effects: { Investments:  10, people:  5, army: -5, treasury:   0 } },
+        yes: { label: "Do it",      effects: { Investments: -20, people: -5, army: 10, treasury: -15 } }
       },
       {
         name: "The Knight",
         portrait: "🗡️",
         text: "A rival lord has insulted the crown. Shall I challenge him to a duel?",
-        no:  { label: "Let it go", effects: { church:  0, people: -10, army: -15, treasury:  5 } },
-        yes: { label: "Duel him",  effects: { church:  0, people:  10, army:  15, treasury: -10 } }
+        no:  { label: "Let it go", effects: { Investments:  0, people: -10, army: -15, treasury:  5 } },
+        yes: { label: "Duel him",  effects: { Investments:  0, people:  10, army:  15, treasury: -10 } }
       },
       {
         name: "The Jester",
         portrait: "🤡",
         text: "Sire! A grand festival would cheer your weary subjects!",
-        no:  { label: "Cancel it",  effects: { church:  5, people: -10, army:  0, treasury:  10 } },
-        yes: { label: "Let's feast", effects: { church: -5, people:  20, army:  5, treasury: -20 } }
+        no:  { label: "Cancel it",  effects: { Investments:  5, people: -10, army:  0, treasury:  10 } },
+        yes: { label: "Let's feast", effects: { Investments: -5, people:  20, army:  5, treasury: -20 } }
       },
       {
         name: "The Spy",
         portrait: "🕵️",
         text: "I have uncovered a conspiracy. Shall I make the traitors... disappear?",
-        no:  { label: "Spare them",  effects: { church:  10, people:  5, army: -10, treasury:   0 } },
-        yes: { label: "Disappear",   effects: { church: -10, people: -10, army:  15, treasury:  -5 } }
+        no:  { label: "Spare them",  effects: { Investments:  10, people:  5, army: -10, treasury:   0 } },
+        yes: { label: "Disappear",   effects: { Investments: -10, people: -10, army:  15, treasury:  -5 } }
       },
       {
         name: "The Scholar",
         portrait: "📚",
         text: "Shall we fund a great library for the advancement of knowledge?",
-        no:  { label: "No need",  effects: { church:  5, people:  -5, army:  0, treasury:  10 } },
-        yes: { label: "Fund it",  effects: { church: -10, people:  15, army:  0, treasury: -15 } }
+        no:  { label: "No need",  effects: { Investments:  5, people:  -5, army:  0, treasury:  10 } },
+        yes: { label: "Fund it",  effects: { Investments: -10, people:  15, army:  0, treasury: -15 } }
       },
       {
         name: "The Abbot",
         portrait: "🙏",
         text: "A pilgrimage to the Holy Land would prove your piety to all. Will you go?",
-        no:  { label: "Stay home",  effects: { church: -15, people:  5, army:   0, treasury:  10 } },
-        yes: { label: "Pilgrimage", effects: { church:  25, people: -5, army: -15, treasury: -20 } }
+        no:  { label: "Stay home",  effects: { Investments: -15, people:  5, army:   0, treasury:  10 } },
+        yes: { label: "Pilgrimage", effects: { Investments:  25, people: -5, army: -15, treasury: -20 } }
       }
     ];
 
@@ -458,9 +453,9 @@
     //    or 100 (high).
     // -----------------------------------------------
     const deathReasons = {
-      church: {
-        low:  "The church declared you a heretic. Excommunicated and abandoned, you died alone.",
-        high: "The church grew too powerful and overthrew you. Long live the Pope."
+      Investments: {
+        low:  "You've depleted your investments. Without capital, you've lost all support.",
+        high: "Your excessive investments have led to financial ruin. You're left with nothing."
       },
       people: {
         low:  "Starving and furious, the peasants stormed the castle. The revolution was swift.",
@@ -479,7 +474,7 @@
     // -----------------------------------------------
     // 3. GAME STATE
     // -----------------------------------------------
-    let stats = { church: 50, people: 50, army: 50, treasury: 50 };
+    let stats = { Investments: 50, people: 50, army: 50, treasury: 50 };
     let year  = 1;
     let cardQueue   = [];
     let hintShown   = false;
@@ -574,7 +569,7 @@
     // 8. CHECK IF ANY STAT HIT 0 OR 100
     // -----------------------------------------------
     function checkDeath() {
-      for (const stat of ['church', 'people', 'army', 'treasury']) {
+      for (const stat of ['Investments', 'people', 'army', 'treasury']) {
         if (stats[stat] <= 0)   { showDeath(stat, 'low');  return; }
         if (stats[stat] >= 100) { showDeath(stat, 'high'); return; }
       }
@@ -594,7 +589,7 @@
     // 10. RESTART BUTTON
     // -----------------------------------------------
     document.getElementById('restart-btn').addEventListener('click', () => {
-      stats     = { church: 50, people: 50, army: 50, treasury: 50 };
+      stats     = { Investments: 50, people: 50, army: 50, treasury: 50 };
       year      = 1;
       hintShown = false;
 
