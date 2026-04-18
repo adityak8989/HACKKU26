@@ -34,12 +34,36 @@
        LAYOUT WRAPPER
     ============================================= */
     #app {
+      position: relative; /* <--- ADD THIS LINE */
       width: 100%;
       max-width: 420px;
-      padding: 1.5rem 1rem 2rem;
+      padding: 3rem 1rem 2rem; /* <--- OPTIONAL: change top padding to 3rem so the button doesn't overlap the title */
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+
+    /* --- ADD THIS NEW BLOCK --- */
+    #home-btn {
+      position: absolute;
+      top: 38.5rem;
+      left: 11rem;
+      padding: 6px 12px;
+      border-radius: 15px;
+      border: 1px solid #4a3a18;
+      background: transparent;
+      color: #a08840;
+      font-size: 11px;
+      font-family: Georgia, serif;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    #home-btn:hover {
+      background: #2a1e08;
+      color: #d0aa60;
     }
 
     /* =============================================
@@ -366,6 +390,7 @@
        MAIN GAME VIEW
   ============================================= -->
   <div id="app">
+    <a href="homepage.html" id="home-btn">🏠 Home</a>
 
     <div id="title"> <b>DON'T GO BROKE!</b> </div>
     <div id="year-counter">Week 1</div>
