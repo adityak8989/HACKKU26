@@ -362,9 +362,9 @@
   ============================================= -->
   <div id="death-screen">
     <div id="death-skull">💀</div>
-    <h2 id="death-title">Your reign has ended</h2>
+    <h2 id="death-title">You're Dead</h2>
     <p  id="death-reason"></p>
-    <button id="restart-btn">Begin a new reign</button>
+    <button id="restart-btn">Start Over</button>
   </div>
 
 
@@ -412,18 +412,18 @@
       },
     
       {
-        name: "The Farmer",
-        portrait: "👨‍🌾",
-        text: "The harvest is poor, Sire. Shall we lower taxes to help the peasants?",
-        no:  { label: "No mercy",   effects: { investments:  0, happiness: -20, career:  0, savings:  15 } },
-        yes: { label: "Lower them", effects: { investments:  0, happiness:  20, career:  5, savings: -15 } }
+        name: "Homeless Man",
+        portrait: "👴",
+        text: "Spare some change?",
+        no:  { label: "No",   effects: { investments:  0, happiness: -20, career:  0, savings:  15 } },
+        yes: { label: "Spare some", effects: { investments:  0, happiness:  20, career:  0, savings: -15 } }
       },
       {
-        name: "The Treasurer",
-        portrait: "🧮",
-        text: "Your Majesty, a merchant offers a lucrative trade deal. Shall we accept?",
-        no:  { label: "Decline", effects: { investments:  5, happiness:  0, career:  0, savings:  -5 } },
-        yes: { label: "Accept",  effects: { investments:  0, happiness: 10, career:  0, savings:  20 } }
+        name: "School",
+        portrait: "🏫",
+        text: "We're taking money out of your paycheck for taxes",
+        no:  { label: "What?", effects: { investments:  0, happiness:  -10, career:  0, savings:  -10 } },
+        yes: { label: "What?",  effects: { investments:  0, happiness: -10, career:  0, savings:  -10 } }
       },
       {
         name: "Green Gummy Bear",
@@ -477,19 +477,19 @@
     const deathReasons = {
       investments: {
         low:  "You've depleted your investments. Without capital, you've lost all support.",
-        high: "Your excessive investments have led to financial ruin. You're left with nothing."
+        high: "Too invested, perhaps? But investment can be a burden too."
       },
       happiness: {
-        low:  "Starving and furious, the peasants stormed the castle. The revolution was swift.",
-        high: "The people loved you so much they smothered you with adoration — literally."
+        low:  "You've become so unhappy that you cannot continue.",
+        high: "Too happy, perhaps? But happiness can be a burden too."
       },
       career: {
-        low:  "Your reputation has crumbled. Without influence, you've lost all power.",
-        high: "Your rise to power was meteoric. Now, your enemies plot your downfall."
+        low:  "Jobless and hopeless, you've lost all purpose.",
+        high: "Too successful, perhaps? But success can be a burden too."
       },
       savings: {
-        low:  "You've run out of money. Unable to pay your subjects, they turn against you.",
-        high: "Your obscene wealth attracted every bandit and baron. You were ransomed to death."
+        low:  "You've run out of money. Unable to pay your bills, you've lost all resources.",
+        high: "Too wealthy, perhaps? But wealth can be a burden too."
       }
     };
 
@@ -560,7 +560,7 @@
         document.getElementById('bar-' + key).style.width = clamped + '%';
         document.getElementById('val-' + key).textContent  = clamped;
       }
-      document.getElementById('year-counter').textContent = 'Year ' + year;
+      document.getElementById('year-counter').textContent = 'Week ' + year;
     }
 
     // -----------------------------------------------
@@ -603,7 +603,7 @@
     function showDeath(stat, type) {
       document.getElementById('app').style.display          = 'none';
       document.getElementById('death-screen').style.display = 'flex';
-      document.getElementById('death-title').textContent    = 'Your reign lasted ' + year + ' years';
+      document.getElementById('death-title').textContent    = 'You lasted ' + year + ' weeks';
       document.getElementById('death-reason').textContent   = deathReasons[stat][type];
     }
 
