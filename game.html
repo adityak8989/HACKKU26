@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 
-  <title>DON'T GO BROKE!</b></title>
+  <title>DON'T GO BROKE!</title>
   <link rel="icon" href="tab-pic.png" type="image/png">
 
 
@@ -446,9 +446,9 @@ div.slide-down p {
   ============================================= -->
   <div id="death-screen">
     <div id="death-skull">💀</div>
-    <h2 id="death-title">Your reign has ended</h2>
+    <h2 id="death-title">You're Dead</h2>
     <p  id="death-reason"></p>
-    <button id="restart-btn">Begin a new reign</button>
+    <button id="restart-btn">Start Over</button>
   </div>
 
 
@@ -510,6 +510,13 @@ div.slide-down p {
         no:  { label: "Wow", effects: { investments:  0, happiness:  0, career: 0, savings:  0 } },
         yes: { label: "Wow",    effects: {investments:  0, happiness:  0, career: 0, savings:  0 } }
       },
+       {
+        name: "Information",
+        portrait: "📓",
+        text: " If you get a credit card, pay the balance in full every month to avoid high-interest fees.",
+        no:  { label: "Wow", effects: { investments:  0, happiness:  0, career: 0, savings:  0 } },
+        yes: { label: "Wow",    effects: {investments:  0, happiness:  0, career: 0, savings:  0 } }
+      },
       {
         name: "Nigerian Prince",
         portrait: "🤴🏽",
@@ -539,6 +546,13 @@ div.slide-down p {
         text: "I'm a green gummy bear and I'm going to eat you",
         no:  { label: "Ok!!!",    effects: { investments:  0, happiness:  -90, career: 0, savings:   0 } },
         yes: { label: "Run Away",      effects: { investments: 0, happiness: 5, career: 0, savings: 0 } }
+      },
+      {
+        name: "Criminal",
+        portrait: "🦹",
+        text: "Give me all your money or else!",
+        no:  { label: "Nah I'd Win",    effects: { investments:  0, happiness:  -30, career: 0, savings:   -10 } },
+        yes: { label: "OKOKOK",      effects: { investments: 0, happiness: -5, career: 0, savings: -10 } }
       },
       {
         name: "Mr. Stock Market",
@@ -585,19 +599,19 @@ div.slide-down p {
     const deathReasons = {
       investments: {
         low:  "You've depleted your investments. Without capital, you've lost all support.",
-        high: "Your excessive investments have led to financial ruin. You're left with nothing."
+        high: "Too invested, perhaps? But investment can be a burden too."
       },
       happiness: {
-        low:  "Starving and furious, the peasants stormed the castle. The revolution was swift.",
-        high: "The people loved you so much they smothered you with adoration — literally."
+        low:  "You've become so unhappy that you cannot continue.",
+        high: "Too happy, perhaps? But happiness can be a burden too."
       },
       career: {
-        low:  "Your reputation has crumbled. Without influence, you've lost all power.",
-        high: "Your rise to power was meteoric. Now, your enemies plot your downfall."
+        low:  "Jobless and hopeless, you've lost all purpose.",
+        high: "Too successful, perhaps? But success can be a burden too."
       },
       savings: {
-        low:  "You've run out of money. Unable to pay your subjects, they turn against you.",
-        high: "Your obscene wealth attracted every bandit and baron. You were ransomed to death."
+        low:  "You've run out of money. Unable to pay your bills, you've lost all resources.",
+        high: "Too wealthy, perhaps? But wealth can be a burden too."
       }
     };
 
@@ -711,7 +725,11 @@ div.slide-down p {
     function showDeath(stat, type) {
       document.getElementById('app').style.display          = 'none';
       document.getElementById('death-screen').style.display = 'flex';
+<<<<<<< HEAD
       document.getElementById('death-title').textContent    = 'Your reign lasted ' + year + ' weeks';
+=======
+      document.getElementById('death-title').textContent    = 'You lasted ' + year + ' weeks';
+>>>>>>> c150ad15602f44601e0891dc306ab0681450cb38
       document.getElementById('death-reason').textContent   = deathReasons[stat][type];
     }
 
