@@ -443,8 +443,10 @@ div.slide-down p {
   <div id="death-screen">
     <div id="death-skull">💀</div>
     <h2 id="death-title">You're Dead</h2>
-    <p  id="death-reason"></p>
+    <p id="death-reason"></p>
     <button id="restart-btn">Start Over</button>
+    <br>
+    <a href="leaderboard.html" style="color: #a08840; font-size: 12px; font-family: Georgia, serif; text-decoration: underline; margin-top: 10px;">View Leaderboard</a>
   </div>
 
 
@@ -718,12 +720,33 @@ div.slide-down p {
     // -----------------------------------------------
     // 9. SHOW DEATH SCREEN
     // -----------------------------------------------
+    // -----------------------------------------------
+    // 9. SHOW DEATH SCREEN
+    // -----------------------------------------------
     function showDeath(stat, type) {
       document.getElementById('app').style.display          = 'none';
       document.getElementById('death-screen').style.display = 'flex';
-
       document.getElementById('death-title').textContent    = 'You lasted ' + year + ' weeks';
       document.getElementById('death-reason').textContent   = deathReasons[stat][type];
+
+      // Save the score when the player dies
+      saveScore(year);
+    }
+
+    // New function to handle saving
+    function saveScore(finalWeek) {
+      let scores = JSON.parse(localStorage.getItem('dontGoBrokeScores')) || [];
+      
+      // Save it under "weeks" instead of "years"
+      scores.push({ weeks: finalWeek });
+      
+      // Sort highest weeks first
+      scores.sort((a, b) => b.weeks - a.weeks);
+      
+      // Keep top 10
+      scores = scores.slice(0, 10);
+      
+      localStorage.setItem('dontGoBrokeScores', JSON.stringify(scores));
     }
 
     // -----------------------------------------------
