@@ -361,9 +361,9 @@
   ============================================= -->
   <div id="death-screen">
     <div id="death-skull">💀</div>
-    <h2 id="death-title">Your reign has ended</h2>
+    <h2 id="death-title">You have lost</h2>
     <p  id="death-reason"></p>
-    <button id="restart-btn">Begin a new reign</button>
+    <button id="restart-btn">Begin a new career</button>
   </div>
 
 
@@ -402,11 +402,11 @@
         yes: { label: "This seems like a scam!",    effects: { investments:  0, happiness: 5, career:  0, savings: 10 } }
       },
       {
-        name: "The Farmer",
-        portrait: "👨‍🌾",
-        text: "The harvest is poor, Sire. Shall we lower taxes to help the peasants?",
-        no:  { label: "No mercy",   effects: { investments:  0, happiness: -20, career:  0, savings:  15 } },
-        yes: { label: "Lower them", effects: { investments:  0, happiness:  20, career:  5, savings: -15 } }
+        name: "Boss",
+        portrait: "🤵‍♀️",
+        text: "We have a new opportunity! It will require extra hours but could lead to a promotion. Do you take it?",
+        no:  { label: "No thanks boss",   effects: { investments:  0, happiness: 10, career:  -10, savings:  -5 } },
+        yes: { label: "The Grind never stops", effects: { investments:  0, happiness:  -20, career:  20, savings: 10 } }
       },
       {
         name: "The Treasurer",
