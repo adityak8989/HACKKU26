@@ -24,3 +24,29 @@ body {
   object-fit: cover; 
   pointer-events: none; 
 }
+
+/* =============================================
+   HOME BUTTON (Top Left)
+============================================= */
+#home-btn {
+  position: absolute;
+  top: 1.5rem;
+  left: 1rem;
+  padding: 6px 12px;
+  border-radius: 15px;
+  border: 1px solid #4a3a18;
+  background: transparent;
+  color: #a08840;
+  font-size: 11px;
+  font-family: Georgia, serif;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+  z-index: 100; /* <-- This ensures the button stays on top of the video! */
+}
+
+#home-btn:hover {
+  background: #2a1e08;
+  color: #d0aa60;
+}
