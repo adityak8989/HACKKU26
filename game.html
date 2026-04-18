@@ -390,7 +390,14 @@
       {
         name: "Information",
         portrait: "📓",
-        text: "Saving your money is wise, but did you know that investing can grow your wealth faster?",
+        text: "Saving your money is wise, but did you know that investing can grow your wealth faster",
+        no:  { label: "Wow", effects: { investments:  0, happiness:  0, career: 0, savings:  0 } },
+        yes: { label: "Wow",    effects: {investments:  0, happiness:  0, career: 0, savings:  0 } }
+      },
+      {
+        name: "Information",
+        portrait: "📓",
+        text: "50/30/20 Rule: 50% of your income should go to needs, 30% to wants, and 20% to savings/investments",
         no:  { label: "Wow", effects: { investments:  0, happiness:  0, career: 0, savings:  0 } },
         yes: { label: "Wow",    effects: {investments:  0, happiness:  0, career: 0, savings:  0 } }
       },
@@ -398,8 +405,13 @@
         name: "Nigerian Prince",
         portrait: "🤴🏽",
         text: "I'm a Nigerian prince and I need your help! Will you transfer me $10,000?",
+<<<<<<< HEAD
         no:  { label: "YES", effects: { investments:  0, happiness:  -5, career: -10, savings:  -10 } },
         yes: { label: "This seems like a scam!",    effects: { investments:  0, happiness: 5, career:  0, savings: 10 } }
+=======
+        no:  { label: "This seems like a scam!", effects: { investments:  0, happiness:  -5, career: 0, savings:  5 } },
+        yes: { label: "YES",    effects: { investments:  0, happiness: 5, career:  0, savings: -10 } }
+>>>>>>> e4552e7716e8f29dbb211c01b0d96c8ac2cd8f5b
       },
       {
         name: "The Farmer",
@@ -423,39 +435,39 @@
         yes: { label: "Run Away",      effects: { investments: 0, happiness: 5, career: 0, savings: 0 } }
       },
       {
-        name: "The Knight",
-        portrait: "🗡️",
-        text: "A rival lord has insulted the crown. Shall I challenge him to a duel?",
-        no:  { label: "Let it go", effects: { investments:  0, happiness: -10, career: -15, savings:  5 } },
-        yes: { label: "Duel him",  effects: { investments:  0, happiness:  10, career:  15, savings: -10 } }
+        name: "Mr. Stock Market",
+        portrait: "📈",
+        text: "The Stock Market is going up do you want to invest?",
+        no:  { label: "No", effects: { investments:  -20, happiness: 0, career: 0, savings:  10 } },
+        yes: { label: "Yes",  effects: { investments:  20, happiness:  0, career:  0, savings: -10 } }
       },
       {
         name: "Funny Clown Guy",
         portrait: "🤡",
-        text: "Do you want to see an aswesome magic trick that will blow your mind for 10 dollars?",
+        text: "Do you want to see an awesome magic trick that will blow your mind for 10 dollars?",
         no:  { label: "No",  effects: { investments:  0, happiness: -10, career:  0, savings:  10 } },
         yes: { label: "Yes", effects: { investments: 0, happiness:  20, career:  5, savings: -20 } }
       },
       {
-        name: "The Spy",
-        portrait: "🕵️",
-        text: "I have uncovered a conspiracy. Shall I make the traitors... disappear?",
-        no:  { label: "Spare them",  effects: { investments:  10, happiness:  5, career: -10, savings:   0 } },
-        yes: { label: "Disappear",   effects: { investments: -10, happiness: -10, career:  15, savings:  -5 } }
+        name: "Umbrella Corp(Evil)",
+        portrait: "☂️",
+        text: "Do you want to invest in bio engineering new life forms?",
+        no:  { label: "No",  effects: { investments:  10, happiness:  5, career: 5, savings:   5 } },
+        yes: { label: "Yes",   effects: { investments: -10, happiness: -10, career:  10, savings:  -5 } }
       },
       {
-        name: "The Scholar",
-        portrait: "📚",
-        text: "Shall we fund a great library for the advancement of knowledge?",
-        no:  { label: "No need",  effects: { investments:  5, happiness:  -5, career:  0, savings:  10 } },
-        yes: { label: "Fund it",  effects: { investments: -10, happiness:  15, career:  0, savings: -15 } }
+        name: "Car Crash",
+        portrait: "🏎️",
+        text: "You got in a car crash! Do you want to sue the other driver for compensation?",
+        no:  { label: "No need",  effects: { investments:  -5, happiness:  5, career:  0, savings:  -10 } },
+        yes: { label: "I'M SUEING THEM",  effects: { investments: 10, happiness:  0, career:  0, savings: 10 } }
       },
       {
-        name: "The Abbot",
-        portrait: "🙏",
-        text: "A pilgrimage to the Holy Land would prove your piety to all. Will you go?",
-        no:  { label: "Stay home",  effects: { investments: -15, happiness:  5, career:   0, savings:  10 } },
-        yes: { label: "Pilgrimage", effects: { investments:  25, happiness: -5, career: -15, savings: -20 } }
+        name: "Movies",
+        portrait: "🎥",
+        text: "You're invited to a movie premiere. Will you go?",
+        no:  { label: "Stay home",  effects: { investments: 0, happiness:  -10, career:   0, savings:  10 } },
+        yes: { label: "Go to the premiere", effects: { investments:  0, happiness: 10, career: 0, savings: -10 } }
       }
     ];
 
