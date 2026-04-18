@@ -7,16 +7,32 @@
 </head>
 <body>
 
+
+<audio autoplay loop id="bg-music">
+  <source src="Apple.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  // This listens for the very first click anywhere on the page
+  document.body.addEventListener('click', function() {
+    var audio = document.getElementById("bg-music");
+    // If the audio is paused (blocked by browser), this click will force it to play
+    if (audio.paused) {
+      audio.play();
+    }
+  }, { once: true }); // The 'once: true' ensures this only triggers on the first click
+</script>
+
   <div class="animation-container">
     
     <video class="opening-video" autoplay muted playsinline>
-      <source src="video-bg.mp4" type="video/mp4">
+      <source src="dark-bg.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
 
-    <a href="/page1.html" class="overlay-button button-1">hi</a>
-    <a href="game.html" class="overlay-button button-2">hi</a>
-    <a href="/page3.html" class="overlay-button button-3">k</a>
+    <a href="/page1.html" class="overlay-button button-1"></a>
+    <a href="game.html" class="overlay-button button-2"></a>
+    <a href="/page3.html" class="overlay-button button-3"></a>
 
   </div>
 
