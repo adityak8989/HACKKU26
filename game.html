@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reigns – Your Kingdom Awaits</title>
+  <style>
+
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #1a1208;
+      color: #f0e6c8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* =============================================
+       LAYOUT WRAPPER
+    ============================================= */
+    #app {
+      width: 100%;
+      max-width: 420px;
+      padding: 1.5rem 1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* =============================================
+       HEADER / TITLE
+    ============================================= */
+    #title {
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #a08840;
+      margin-bottom: 1.5rem;
+    }
+
+    /* =============================================
+       YEAR COUNTER
+    ============================================= */
+    #year-counter {
+      font-size: 13px;
+      color: #8a7a50;
+      margin-bottom: 1rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* =============================================
+       STAT BARS (Church / People / Army / Treasury)
+    ============================================= */
+    #stats {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-icon {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #7a6a40;
+      margin-bottom: 4px;
+      font-family: Georgia, serif;
+    }
+
+    .stat-bar-bg {
+      width: 100%;
+      height: 5px;
+      background: #2e2410;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .stat-bar {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+
+    /* Each stat bar has its own colour */
+    .stat-bar.church   { background: #8db87a; }
+    .stat-bar.people   { background: #7aaad0; }
+    .stat-bar.army     { background: #d07a7a; }
+    .stat-bar.treasury { background: #d4aa50; }
+
+    .stat-val {
+      font-size: 11px;
+      margin-top: 3px;
+      color: #a09070;
+    }
+
+    /* =============================================
+       CHOICE LABELS (shown left / right of card)
+    ============================================= */
+    #choice-labels {
+      display: flex;
+      justify-content: space-between;
+      width: 280px;
+      margin-bottom: 0.75rem;
+    }
+
+    .choice-label {
+      font-size: 11px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      border: 1px solid #3a2e18;
+      color: #6a5a30;
+      letter-spacing: 0.05em;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      font-family: Georgia, serif;
+    }
+
+    .choice-label.active-no {
+      background: #3a1a1a;
+      color: #d07a7a;
+      border-color: #a04040;
+    }
+
+    .choice-label.active-yes {
+      background: #1a3020;
+      color: #8db87a;
+      border-color: #508050;
+    }
+
+    /* =============================================
+       CARD AREA  (the draggable card sits here)
+    ============================================= */
+    #card-area {
+      position: relative;
+      width: 280px;
+      height: 340px;
+      margin-bottom: 1.25rem;
+    }
+
+    #card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+
+      /* Parchment look */
+      background: #2a1e08;
+      border: 1px solid #4a3a18;
+      border-radius: 12px;
+      padding: 1.75rem 1.5rem 1.5rem;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      cursor: grab;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      will-change: transform;
+    }
+
+    #card.dragging {
+      cursor: grabbing;
+      transition: none; /* disable transition while dragging for responsiveness */
+    }
+
+    /* Portrait circle */
+    .card-portrait {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #1a1208;
+      border: 1px solid #4a3a18;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-name {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #a08840;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-text {
+      font-size: 14px;
+      line-height: 1.7;
+      text-align: center;
+      color: #d0c090;
+      flex: 1;
+    }
+
+    /* Subtle hint shown on first card */
+    #swipe-hint {
+      font-size: 11px;
+      margin-top: 0.75rem;
+      color: #5a4a28;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    #swipe-hint.visible {
+      opacity: 1;
+    }
+
+    /* =============================================
+       DEATH / GAME OVER SCREEN
+    ============================================= */
+    #death-screen {
+      display: none;          /* hidden until triggered */
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1rem;
+      min-height: 460px;
+      justify-content: center;
+    }
+
+    #death-skull {
+      font-size: 52px;
+      margin-bottom: 1rem;
+    }
+
+    #death-title {
+      font-size: 20px;
+      font-weight: normal;
+      margin-bottom: 0.75rem;
+      color: #f0e6c8;
+    }
+
+    #death-reason {
+      font-size: 14px;
+      color: #8a7a50;
+      line-height: 1.8;
+      max-width: 280px;
+      margin-bottom: 2rem;
+    }
+
+    #restart-btn {
+      padding: 10px 28px;
+      border-radius: 20px;
+      border: 1px solid #4a3a18;
+      background: transparent;
+      color: #a08840;
+      font-size: 13px;
+      font-family: Georgia, serif;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    #restart-btn:hover {
+      background: #2a1e08;
+      color: #d0aa60;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- =============================================
+       MAIN GAME VIEW
+  ============================================= -->
+  <div id="app">
+
+    <div id="title">⚜ Your Kingdom ⚜</div>
+
+    <div id="year-counter">Year 1</div>
+
+    <!-- STAT BARS -->
+    <div id="stats">
+      <div class="stat">
+        <div class="stat-icon">⛪</div>
+        <div class="stat-label">Church</div>
+        <div class="stat-bar-bg">
+          <div class="stat-bar church" id="bar-church" style="width: 50%"></div>
+        </div>
+        <div class="stat-val" id="val-church">50</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-icon">👥</div>
+        <div class="stat-label">People</div>
+        <div class="stat-bar-bg">
+          <div class="stat-bar people" id="bar-people" style="width: 50%"></div>
+        </div>
+        <div class="stat-val" id="val-people">50</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-icon">⚔️</div>
+        <div class="stat-label">Army</div>
+        <div class="stat-bar-bg">
+          <div class="stat-bar army" id="bar-army" style="width: 50%"></div>
+        </div>
+        <div class="stat-val" id="val-army">50</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-icon">💰</div>
+        <div class="stat-label">Treasury</div>
+        <div class="stat-bar-bg">
+          <div class="stat-bar treasury" id="bar-treasury" style="width: 50%"></div>
+        </div>
+        <div class="stat-val" id="val-treasury">50</div>
+      </div>
+    </div>
+
+    <!-- LEFT / RIGHT CHOICE LABELS -->
+    <div id="choice-labels">
+      <span class="choice-label" id="lbl-no">✕ No</span>
+      <span class="choice-label" id="lbl-yes">✓ Yes</span>
+    </div>
+
+    <!-- THE CARD -->
+    <div id="card-area">
+      <div id="card">
+        <div class="card-portrait" id="card-portrait"></div>
+        <div class="card-name"     id="card-name"></div>
+        <div class="card-text"     id="card-text"></div>
+        <div id="swipe-hint">← swipe to decide →</div>
+      </div>
+    </div>
+
+  </div><!-- /#app -->
+
+  <!-- =============================================
+       DEATH SCREEN  (hidden initially)
+  ============================================= -->
+  <div id="death-screen">
+    <div id="death-skull">💀</div>
+    <h2 id="death-title">Your reign has ended</h2>
+    <p  id="death-reason"></p>
+    <button id="restart-btn">Begin a new reign</button>
+  </div>
+
+
+  <!-- =============================================
+       JAVASCRIPT
+  ============================================= -->
+  <script>
+
+    // -----------------------------------------------
+    // 1. CARD DATA
+    //    Each card has: name, portrait emoji, flavour
+    //    text, and two choices (yes / no).
+    //    Each choice has an effects object that adds
+    //    or subtracts from the four stats.
+    // -----------------------------------------------
+    const cards = [
+      {
+        name: "The Bishop",
+        portrait: "👨‍⚖️",
+        text: "Your Grace, shall we build a new cathedral to honour God?",
+        no:  { label: "Refuse",  effects: { church: -15, people:   5, army:  0, treasury:  10 } },
+        yes: { label: "Build it", effects: { church:  20, people:  -5, army:  0, treasury: -20 } }
+      },
+      {
+        name: "The General",
+        portrait: "⚔️",
+        text: "My liege, our army grows restless. Shall we march to war?",
+        no:  { label: "Stand down", effects: { church:  5, people:  5, army: -20, treasury:  10 } },
+        yes: { label: "To war!",    effects: { church:  0, people: -10, army:  20, treasury: -25 } }
+      },
+      {
+        name: "The Farmer",
+        portrait: "👨‍🌾",
+        text: "The harvest is poor, Sire. Shall we lower taxes to help the peasants?",
+        no:  { label: "No mercy",   effects: { church:  0, people: -20, army:  0, treasury:  15 } },
+        yes: { label: "Lower them", effects: { church:  0, people:  20, army:  5, treasury: -15 } }
+      },
+      {
+        name: "The Treasurer",
+        portrait: "🧮",
+        text: "Your Majesty, a merchant offers a lucrative trade deal. Shall we accept?",
+        no:  { label: "Decline", effects: { church:  5, people:  0, army:  0, treasury:  -5 } },
+        yes: { label: "Accept",  effects: { church:  0, people: 10, army:  0, treasury:  20 } }
+      },
+      {
+        name: "The Witch",
+        portrait: "🧙‍♀️",
+        text: "I can curse your enemies for a modest fee. What say you, my liege?",
+        no:  { label: "Begone!",    effects: { church:  10, people:  5, army: -5, treasury:   0 } },
+        yes: { label: "Do it",      effects: { church: -20, people: -5, army: 10, treasury: -15 } }
+      },
+      {
+        name: "The Knight",
+        portrait: "🗡️",
+        text: "A rival lord has insulted the crown. Shall I challenge him to a duel?",
+        no:  { label: "Let it go", effects: { church:  0, people: -10, army: -15, treasury:  5 } },
+        yes: { label: "Duel him",  effects: { church:  0, people:  10, army:  15, treasury: -10 } }
+      },
+      {
+        name: "The Jester",
+        portrait: "🤡",
+        text: "Sire! A grand festival would cheer your weary subjects!",
+        no:  { label: "Cancel it",  effects: { church:  5, people: -10, army:  0, treasury:  10 } },
+        yes: { label: "Let's feast", effects: { church: -5, people:  20, army:  5, treasury: -20 } }
+      },
+      {
+        name: "The Spy",
+        portrait: "🕵️",
+        text: "I have uncovered a conspiracy. Shall I make the traitors... disappear?",
+        no:  { label: "Spare them",  effects: { church:  10, people:  5, army: -10, treasury:   0 } },
+        yes: { label: "Disappear",   effects: { church: -10, people: -10, army:  15, treasury:  -5 } }
+      },
+      {
+        name: "The Scholar",
+        portrait: "📚",
+        text: "Shall we fund a great library for the advancement of knowledge?",
+        no:  { label: "No need",  effects: { church:  5, people:  -5, army:  0, treasury:  10 } },
+        yes: { label: "Fund it",  effects: { church: -10, people:  15, army:  0, treasury: -15 } }
+      },
+      {
+        name: "The Abbot",
+        portrait: "🙏",
+        text: "A pilgrimage to the Holy Land would prove your piety to all. Will you go?",
+        no:  { label: "Stay home",  effects: { church: -15, people:  5, army:   0, treasury:  10 } },
+        yes: { label: "Pilgrimage", effects: { church:  25, people: -5, army: -15, treasury: -20 } }
+      }
+    ];
+
+    // -----------------------------------------------
+    // 2. DEATH MESSAGES
+    //    Keyed by stat name and whether it hit 0 (low)
+    //    or 100 (high).
+    // -----------------------------------------------
+    const deathReasons = {
+      church: {
+        low:  "The church declared you a heretic. Excommunicated and abandoned, you died alone.",
+        high: "The church grew too powerful and overthrew you. Long live the Pope."
+      },
+      people: {
+        low:  "Starving and furious, the peasants stormed the castle. The revolution was swift.",
+        high: "The people loved you so much they smothered you with adoration — literally."
+      },
+      army: {
+        low:  "With no army left, your enemies invaded unchallenged. The kingdom fell.",
+        high: "Your generals, drunk on power, staged a military coup. You were the first to go."
+      },
+      treasury: {
+        low:  "The treasury ran dry. Unable to pay your guards, they let the assassins in.",
+        high: "Your obscene wealth attracted every bandit and baron. You were ransomed to death."
+      }
+    };
+
+    // -----------------------------------------------
+    // 3. GAME STATE
+    // -----------------------------------------------
+    let stats = { church: 50, people: 50, army: 50, treasury: 50 };
+    let year  = 1;
+    let cardQueue   = [];
+    let hintShown   = false;
+    let currentCard = null;
+
+    // -----------------------------------------------
+    // 4. UTILITY: Fisher-Yates shuffle
+    // -----------------------------------------------
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [ array[i], array[j] ] = [ array[j], array[i] ];
+      }
+      return array;
+    }
+
+    function refillQueue() {
+      cardQueue = shuffle([...cards]); // spread so we don't mutate original
+    }
+
+    // -----------------------------------------------
+    // 5. DRAW NEXT CARD
+    // -----------------------------------------------
+    function nextCard() {
+      if (cardQueue.length === 0) refillQueue();
+
+      currentCard = cardQueue.pop();
+
+      // Populate the card DOM elements
+      document.getElementById('card-portrait').textContent = currentCard.portrait;
+      document.getElementById('card-name').textContent     = currentCard.name;
+      document.getElementById('card-text').textContent     = currentCard.text;
+      document.getElementById('lbl-no').textContent        = '✕ ' + currentCard.no.label;
+      document.getElementById('lbl-yes').textContent       = '✓ ' + currentCard.yes.label;
+
+      // Reset labels to default style
+      document.getElementById('lbl-no').className  = 'choice-label';
+      document.getElementById('lbl-yes').className = 'choice-label';
+
+      resetCardPosition();
+
+      // Show hint on first card only
+      if (!hintShown) {
+        document.getElementById('swipe-hint').classList.add('visible');
+      }
+    }
+
+    function resetCardPosition() {
+      const card = document.getElementById('card');
+      card.style.transform  = '';
+      card.style.opacity    = '';
+      card.style.transition = '';
+    }
+
+    // -----------------------------------------------
+    // 6. UPDATE THE STAT BARS IN THE DOM
+    // -----------------------------------------------
+    function updateStats() {
+      for (const [key, value] of Object.entries(stats)) {
+        const clamped = Math.max(0, Math.min(100, value));
+        document.getElementById('bar-' + key).style.width = clamped + '%';
+        document.getElementById('val-' + key).textContent  = clamped;
+      }
+      document.getElementById('year-counter').textContent = 'Year ' + year;
+    }
+
+    // -----------------------------------------------
+    // 7. APPLY A CHOICE (called after a confirmed swipe)
+    //    choice = 'yes' or 'no'
+    // -----------------------------------------------
+    function applyChoice(choice) {
+      hintShown = true;
+      document.getElementById('swipe-hint').classList.remove('visible');
+
+      // Add each effect to the corresponding stat
+      const effects = currentCard[choice].effects;
+      for (const [key, delta] of Object.entries(effects)) {
+        stats[key] = (stats[key] || 0) + delta;
+      }
+
+      year++;
+      updateStats();
+      checkDeath();
+
+      // Only draw next card if the game is still running
+      if (document.getElementById('app').style.display !== 'none') {
+        nextCard();
+      }
+    }
+
+    // -----------------------------------------------
+    // 8. CHECK IF ANY STAT HIT 0 OR 100
+    // -----------------------------------------------
+    function checkDeath() {
+      for (const stat of ['church', 'people', 'army', 'treasury']) {
+        if (stats[stat] <= 0)   { showDeath(stat, 'low');  return; }
+        if (stats[stat] >= 100) { showDeath(stat, 'high'); return; }
+      }
+    }
+
+    // -----------------------------------------------
+    // 9. SHOW DEATH SCREEN
+    // -----------------------------------------------
+    function showDeath(stat, type) {
+      document.getElementById('app').style.display          = 'none';
+      document.getElementById('death-screen').style.display = 'flex';
+      document.getElementById('death-title').textContent    = 'Your reign lasted ' + year + ' years';
+      document.getElementById('death-reason').textContent   = deathReasons[stat][type];
+    }
+
+    // -----------------------------------------------
+    // 10. RESTART BUTTON
+    // -----------------------------------------------
+    document.getElementById('restart-btn').addEventListener('click', () => {
+      stats     = { church: 50, people: 50, army: 50, treasury: 50 };
+      year      = 1;
+      hintShown = false;
+
+      refillQueue();
+      updateStats();
+
+      document.getElementById('death-screen').style.display = 'none';
+      document.getElementById('app').style.display          = 'flex';
+
+      nextCard();
+    });
+
+    // -----------------------------------------------
+    // 11. DRAG / SWIPE LOGIC
+    //
+    //   Three phases:
+    //   - onStart : record starting X, mark dragging
+    //   - onMove  : translate the card, tilt it, update labels
+    //   - onEnd   : if moved far enough → commit choice;
+    //               otherwise snap back
+    // -----------------------------------------------
+    const cardEl = document.getElementById('card');
+    const THRESHOLD = 90; // pixels needed to commit a swipe
+
+    let startX   = 0;
+    let currentX = 0;
+    let isDragging = false;
+
+    function onStart(x) {
+      startX     = x;
+      isDragging = true;
+      cardEl.classList.add('dragging');
+    }
+
+    function onMove(x) {
+      if (!isDragging) return;
+
+      currentX = x - startX;
+
+      // Rotate slightly as you drag (max ~8°)
+      const rotation = currentX * 0.08;
+      const opacity  = Math.max(0.3, 1 - Math.abs(currentX) / 300);
+
+      cardEl.style.transform = `translateX(${currentX}px) rotate(${rotation}deg)`;
+      cardEl.style.opacity   = opacity;
+
+      // Highlight the matching choice label
+      const noLabel  = document.getElementById('lbl-no');
+      const yesLabel = document.getElementById('lbl-yes');
+
+      if (currentX < -40) {
+        noLabel.className  = 'choice-label active-no';
+        yesLabel.className = 'choice-label';
+      } else if (currentX > 40) {
+        yesLabel.className = 'choice-label active-yes';
+        noLabel.className  = 'choice-label';
+      } else {
+        noLabel.className  = 'choice-label';
+        yesLabel.className = 'choice-label';
+      }
+    }
+
+    function onEnd() {
+      if (!isDragging) return;
+      isDragging = false;
+      cardEl.classList.remove('dragging');
+
+      if (currentX < -THRESHOLD) {
+        // --- Swiped LEFT → No ---
+        cardEl.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+        cardEl.style.transform  = 'translateX(-500px) rotate(-20deg)';
+        cardEl.style.opacity    = '0';
+        setTimeout(() => applyChoice('no'), 250);
+
+      } else if (currentX > THRESHOLD) {
+        // --- Swiped RIGHT → Yes ---
+        cardEl.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+        cardEl.style.transform  = 'translateX(500px) rotate(20deg)';
+        cardEl.style.opacity    = '0';
+        setTimeout(() => applyChoice('yes'), 250);
+
+      } else {
+        // --- Not far enough → snap back ---
+        resetCardPosition();
+        document.getElementById('lbl-no').className  = 'choice-label';
+        document.getElementById('lbl-yes').className = 'choice-label';
+      }
+
+      currentX = 0;
+    }
+
+    // Mouse events
+    cardEl.addEventListener('mousedown', (e) => { onStart(e.clientX); e.preventDefault(); });
+    window.addEventListener('mousemove', (e) => { if (isDragging) onMove(e.clientX); });
+    window.addEventListener('mouseup',   onEnd);
+
+    // Touch events (mobile)
+    cardEl.addEventListener('touchstart', (e) => { onStart(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchmove',  (e) => { if (isDragging) onMove(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchend',   onEnd);
+
+    // -----------------------------------------------
+    // 12. KICK THINGS OFF
+    // -----------------------------------------------
+    refillQueue();
+    nextCard();
+    updateStats();
+
+  </script>
+</body>
+</html>
