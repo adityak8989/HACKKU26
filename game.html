@@ -381,18 +381,25 @@
     // -----------------------------------------------
     const cards = [
       {
-        name: "The Bishop",
+        name: "Businessman",
         portrait: "👨‍⚖️",
-        text: "Your Grace, shall we build a new cathedral to honour God?",
+        text: "Do you want to invest in a new business venture?",
         no:  { label: "Refuse",  effects: { investments: -15, happiness:   5, career:  0, savings:  10 } },
-        yes: { label: "Build it", effects: { investments:  20, happiness:  -5, career:  0, savings: -20 } }
+        yes: { label: "Accept", effects: { investments:  20, happiness:  0, career:  5, savings: -10 } }
       },
       {
-        name: "The General",
-        portrait: "⚔️",
-        text: "My liege, our army grows restless. Shall we march to war?",
-        no:  { label: "Stand down", effects: { investments:  5, happiness:  5, career: -20, savings:  10 } },
-        yes: { label: "To war!",    effects: { investments:  0, happiness: -10, career:  20, savings: -25 } }
+        name: "Information",
+        portrait: "📓",
+        text: "Saving your money is wise, but did you know that investing can grow your wealth faster?",
+        no:  { label: "Wow", effects: { investments:  0, happiness:  0, career: 0, savings:  0 } },
+        yes: { label: "Wow",    effects: {investments:  0, happiness:  0, career: 0, savings:  0 } }
+      },
+      {
+        name: "Nigerian Prince",
+        portrait: "🤴🏽",
+        text: "I'm a Nigerian prince and I need your help! Will you transfer me $10,000?",
+        no:  { label: "YES", effects: { investments:  0, happiness:  -5, career: -10, savings:  -10 } },
+        yes: { label: "This seems like a scam!",    effects: { investments:  0, happiness: 5, career:  0, savings: 10 } }
       },
       {
         name: "The Farmer",
@@ -409,11 +416,11 @@
         yes: { label: "Accept",  effects: { investments:  0, happiness: 10, career:  0, savings:  20 } }
       },
       {
-        name: "The Witch",
-        portrait: "🧙‍♀️",
-        text: "I can curse your enemies for a modest fee. What say you, my liege?",
-        no:  { label: "Begone!",    effects: { investments:  10, happiness:  5, career: -5, savings:   0 } },
-        yes: { label: "Do it",      effects: { investments: -20, happiness: -5, career: 10, savings: -15 } }
+        name: "Green Gummy Bear",
+        portrait: "🐻",
+        text: "I'm a green gummy bear and I'm going to eat you",
+        no:  { label: "Ok!!!",    effects: { investments:  0, happiness:  -90, career: 0, savings:   0 } },
+        yes: { label: "Run Away",      effects: { investments: 0, happiness: 5, career: 0, savings: 0 } }
       },
       {
         name: "The Knight",
@@ -423,11 +430,11 @@
         yes: { label: "Duel him",  effects: { investments:  0, happiness:  10, career:  15, savings: -10 } }
       },
       {
-        name: "The Jester",
+        name: "Funny Clown Guy",
         portrait: "🤡",
-        text: "Sire! A grand festival would cheer your weary subjects!",
-        no:  { label: "Cancel it",  effects: { investments:  5, happiness: -10, career:  0, savings:  10 } },
-        yes: { label: "Let's feast", effects: { investments: -5, happiness:  20, career:  5, savings: -20 } }
+        text: "Do you want to see an aswesome magic trick that will blow your mind for 10 dollars?",
+        no:  { label: "No",  effects: { investments:  0, happiness: -10, career:  0, savings:  10 } },
+        yes: { label: "Yes", effects: { investments: 0, happiness:  20, career:  5, savings: -20 } }
       },
       {
         name: "The Spy",
