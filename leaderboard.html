@@ -100,9 +100,10 @@
         
         const rankDisplay = index === 0 ? '👑 1' : index + 1;
 
+        // Displaying "Weeks" instead of "Years"
         entry.innerHTML = `
           <span class="rank">#${rankDisplay}</span>
-          <span>${score.years} Years</span>
+          <span>${score.weeks} Weeks</span>
         `;
         scoreList.appendChild(entry);
       });
