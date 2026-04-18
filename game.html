@@ -290,20 +290,6 @@
 </head>
 <body>
 
-<audio autoplay loop id="bg-music">
-  <source src="Apple.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-  // This listens for the very first click anywhere on the page
-  document.body.addEventListener('click', function() {
-    var audio = document.getElementById("bg-music");
-    // If the audio is paused (blocked by browser), this click will force it to play
-    if (audio.paused) {
-      audio.play();
-    }
-  }, { once: true }); // The 'once: true' ensures this only triggers on the first click
-</script>
   <!-- =============================================
        MAIN GAME VIEW
   ============================================= -->
@@ -375,9 +361,9 @@
   ============================================= -->
   <div id="death-screen">
     <div id="death-skull">💀</div>
-    <h2 id="death-title">You have lost</h2>
+    <h2 id="death-title">Your reign has ended</h2>
     <p  id="death-reason"></p>
-    <button id="restart-btn">Begin a new career</button>
+    <button id="restart-btn">Begin a new reign</button>
   </div>
 
 
@@ -419,28 +405,33 @@
         name: "Nigerian Prince",
         portrait: "🤴🏽",
         text: "I'm a Nigerian prince and I need your help! Will you transfer me $10,000?",
+<<<<<<< HEAD
+        no:  { label: "YES", effects: { investments:  0, happiness:  -5, career: -10, savings:  -10 } },
+        yes: { label: "This seems like a scam!",    effects: { investments:  0, happiness: 5, career:  0, savings: 10 } }
+=======
         no:  { label: "This seems like a scam!", effects: { investments:  0, happiness:  -5, career: 0, savings:  5 } },
         yes: { label: "YES",    effects: { investments:  0, happiness: 5, career:  0, savings: -10 } }
+>>>>>>> e4552e7716e8f29dbb211c01b0d96c8ac2cd8f5b
       },
       {
-        name: "Boss",
-        portrait: "🤵‍♀️",
-        text: "We have a new opportunity! It will require extra hours but could lead to a promotion. Do you take it?",
-        no:  { label: "No thanks boss",   effects: { investments:  0, happiness: 10, career:  -10, savings:  -5 } },
-        yes: { label: "The Grind never stops", effects: { investments:  0, happiness:  -20, career:  20, savings: 10 } }
+        name: "The Farmer",
+        portrait: "👨‍🌾",
+        text: "The harvest is poor, Sire. Shall we lower taxes to help the peasants?",
+        no:  { label: "No mercy",   effects: { investments:  0, happiness: -20, career:  0, savings:  15 } },
+        yes: { label: "Lower them", effects: { investments:  0, happiness:  20, career:  5, savings: -15 } }
       },
       {
-        name: "Homeless Man",
-        portrait: "🧓",
-        text: "Can you spare some change?",
-        no:  { label: "Decline", effects: { investments:  0, happiness:  -5, career:  0, savings:   5 } },
-        yes: { label: "Give some",  effects: { investments:  1, happiness: 5, career:  0, savings:  -5 } }
+        name: "The Treasurer",
+        portrait: "🧮",
+        text: "Your Majesty, a merchant offers a lucrative trade deal. Shall we accept?",
+        no:  { label: "Decline", effects: { investments:  5, happiness:  0, career:  0, savings:  -5 } },
+        yes: { label: "Accept",  effects: { investments:  0, happiness: 10, career:  0, savings:  20 } }
       },
       {
         name: "Green Gummy Bear",
         portrait: "🐻",
         text: "I'm a green gummy bear and I'm going to eat you",
-        no:  { label: "AHHHHH!!!",    effects: { investments:  0, happiness:  -90, career: 0, savings:   0 } },
+        no:  { label: "Ok!!!",    effects: { investments:  0, happiness:  -90, career: 0, savings:   0 } },
         yes: { label: "Run Away",      effects: { investments: 0, happiness: 5, career: 0, savings: 0 } }
       },
       {
