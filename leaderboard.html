@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard - DON'T GO BROKE!</title>
+  <link rel="icon" href="tab-pic.png" type="image/png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #042e1b;
+      color: #f0e6c8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #app {
+      width: 100%;
+      max-width: 420px;
+      padding: 1.5rem 1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #title {
+      font-size: 20px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #a08840;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    #leaderboard-container {
+      background: #510c0c;
+      border: 1px solid #4a3a18;
+      border-radius: 12px;
+      width: 280px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .score-entry {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #4a3a18;
+      padding: 8px 0;
+      font-size: 14px;
+      color: #d0c090;
+    }
+    .score-entry:last-child {
+      border-bottom: none;
+    }
+    .rank {
+      color: #a08840;
+      font-weight: bold;
+    }
+    #back-btn {
+      padding: 10px 28px;
+      border-radius: 20px;
+      border: 1px solid #4a3a18;
+      background: transparent;
+      color: #a08840;
+      font-size: 13px;
+      font-family: Georgia, serif;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+    #back-btn:hover {
+      background: #2a1e08;
+      color: #d0aa60;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <div id="title"> <b>LEADERBOARD</b> </div>
+
+    <div id="leaderboard-container">
+      <div id="score-list">
+        </div>
+    </div>
+
+    <a href="game.html" id="back-btn">Back to Game</a>
+  </div>
+
+  <script>
+    const scores = JSON.parse(localStorage.getItem('dontGoBrokeScores')) || [];
+    const scoreList = document.getElementById('score-list');
+
+    if (scores.length === 0) {
+      scoreList.innerHTML = '<div style="text-align: center; color: #8a7a50; font-size: 13px;">No reigns recorded yet.</div>';
+    } else {
+      scores.forEach((score, index) => {
+        const entry = document.createElement('div');
+        entry.className = 'score-entry';
+        
+        const rankDisplay = index === 0 ? '👑 1' : index + 1;
+
+        entry.innerHTML = `
+          <span class="rank">#${rankDisplay}</span>
+          <span>${score.years} Years</span>
+        `;
+        scoreList.appendChild(entry);
+      });
+    }
+  </script>
+</body>
+</html>
