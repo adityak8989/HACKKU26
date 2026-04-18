@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Finwise Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+    body { background: #f3f2ee; }
+    .dash { display: grid; grid-template-columns: 180px 1fr 280px; grid-template-rows: 52px 1fr; height: 100vh; gap: 0; background: #f3f2ee; }
+    .header { grid-column: 2 / 4; grid-row: 1; display: flex; align-items: center; gap: 12px; padding: 0 20px; background: #fff; border-bottom: 0.5px solid #e0dfd8; border-left: 0.5px solid #e0dfd8; }
+    .header-title { font-size: 14px; font-weight: 500; color: #1a1a18; flex: 1; }
+    .search { flex: 2; max-width: 300px; padding: 6px 12px; font-size: 13px; border-radius: 8px; border: 0.5px solid #c8c7bf; background: #f3f2ee; color: #1a1a18; outline: none; }
+    .avatar { width: 28px; height: 28px; border-radius: 50%; background: #B5D4F4; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #0C447C; cursor: pointer; }
+    .sidebar { grid-column: 1; grid-row: 1 / 3; background: #fff; border-right: 0.5px solid #e0dfd8; padding: 16px 0; display: flex; flex-direction: column; gap: 2px; }
+    .brand { display: flex; align-items: center; gap: 8px; padding: 0 16px 16px; border-bottom: 0.5px solid #e0dfd8; margin-bottom: 8px; }
+    .brand-icon { font-size: 18px; }
+    .brand-name { font-size: 13px; font-weight: 500; color: #1a1a18; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 16px; font-size: 13px; color: #5f5e5a; cursor: pointer; transition: background 0.1s; }
+    .nav-item:hover { background: #f3f2ee; }
+    .nav-item.active { color: #185FA5; background: #E6F1FB; font-weight: 500; }
+    .nav-icon { width: 16px; height: 16px; opacity: 0.7; }
+    .nav-label { font-size: 11px; color: #888780; padding: 12px 16px 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .main { grid-column: 2; grid-row: 2; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .panel { grid-column: 3; grid-row: 2; padding: 16px; background: #f3f2ee; border-left: 0.5px solid #e0dfd8; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .card { background: #fff; border: 0.5px solid #e0dfd8; border-radius: 12px; padding: 14px 16px; }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .card-title { font-size: 13px; font-weight: 500; color: #1a1a18; }
+    .card-action { font-size: 11px; color: #185FA5; cursor: pointer; }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .metric { background: #f3f2ee; border-radius: 8px; padding: 10px 12px; }
+    .metric-label { font-size: 11px; color: #5f5e5a; margin-bottom: 4px; }
+    .metric-value { font-size: 20px; font-weight: 500; color: #1a1a18; }
+    .metric-delta { font-size: 11px; margin-top: 2px; }
+    .delta-up { color: #3B6D11; }
+    .delta-down { color: #A32D2D; }
+    .chart-wrap { position: relative; width: 100%; height: 160px; }
+    .breakdown { display: flex; flex-direction: column; gap: 8px; }
+    .breakdown-row { display: flex; align-items: center; gap: 8px; }
+    .breakdown-label { font-size: 12px; color: #5f5e5a; width: 90px; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 6px; background: #f3f2ee; border-radius: 3px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 3px; }
+    .breakdown-val { font-size: 12px; font-weight: 500; color: #1a1a18; width: 44px; text-align: right; flex-shrink: 0; }
+    .insight { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: 8px; background: #f3f2ee; cursor: pointer; }
+    .insight:hover { background: #eae9e2; }
+    .insight-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+    .insight-text { font-size: 12px; color: #1a1a18; line-height: 1.5; }
+    .insight-time { font-size: 11px; color: #888780; margin-top: 2px; }
+    .budget-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .budget-cat { font-size: 12px; color: #5f5e5a; width: 80px; flex-shrink: 0; }
+    .budget-track { flex: 1; height: 8px; background: #eae9e2; border-radius: 4px; overflow: hidden; }
+    .budget-fill { height: 100%; border-radius: 4px; }
+    .budget-pct { font-size: 11px; color: #888780; width: 32px; text-align: right; flex-shrink: 0; }
+    .tag { font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 500; }
+    .tag-blue { background: #E6F1FB; color: #185FA5; }
+    .tag-amber { background: #FAEEDA; color: #854F0B; }
+    .goal-row { display: flex; flex-direction: column; gap: 4px; padding: 10px 0; border-bottom: 0.5px solid #e0dfd8; }
+    .goal-row:last-child { border-bottom: none; }
+    .goal-top { display: flex; justify-content: space-between; align-items: center; }
+    .goal-name { font-size: 12px; font-weight: 500; color: #1a1a18; }
+    .goal-amount { font-size: 12px; color: #5f5e5a; }
+    .goal-track { height: 5px; background: #eae9e2; border-radius: 3px; overflow: hidden; }
+    .goal-fill { height: 100%; border-radius: 3px; }
+    .goal-sub { font-size: 11px; color: #888780; }
+    .activity-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid #e0dfd8; }
+    .activity-item:last-child { border-bottom: none; }
+    .act-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+    .act-info { flex: 1; }
+    .act-name { font-size: 12px; font-weight: 500; color: #1a1a18; }
+    .act-date { font-size: 11px; color: #888780; }
+    .act-amt { font-size: 13px; font-weight: 500; }
+    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .cal-day { height: 16px; border-radius: 2px; }
+    .cal-labels { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .cal-label { font-size: 10px; color: #888780; }
+    .btn-ask { width: 100%; padding: 8px; font-size: 12px; border-radius: 8px; border: 0.5px solid #c8c7bf; background: transparent; color: #185FA5; cursor: pointer; margin-top: 4px; }
+    .btn-ask:hover { background: #E6F1FB; }
+  </style>
+</head>
+<body>
+
+<div class="dash">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">🐧</span>
+      <span class="brand-name">Finwise</span>
+    </div>
+    <div class="nav-item active">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+      Overview
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1,12 5,7 9,9 15,3"/></svg>
+      Insights
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+      Budget
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 13V6l6-4 6 4v7"/><rect x="6" y="9" width="4" height="4"/></svg>
+      Accounts
+    </div>
+    <div class="nav-label">Tools</div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1"/><path d="M5 3V2M11 3V2M2 7h12"/></svg>
+      Tax Planner
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+      Goals
+    </div>
+  </div>
+
+  <!-- Top Header -->
+  <div class="header">
+    <span class="header-title">Overview · April 2026</span>
+    <input class="search" type="text" placeholder="Search transactions, insights..." />
+    <span style="font-size:16px;cursor:pointer;color:#5f5e5a;">🔔</span>
+    <div class="avatar">JD</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">Net Worth</div>
+        <div class="metric-value">$84,320</div>
+        <div class="metric-delta delta-up">↑ 3.2% this month</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Monthly Spend</div>
+        <div class="metric-value">$3,481</div>
+        <div class="metric-delta delta-down">↑ $240 vs last mo.</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Savings Rate</div>
+        <div class="metric-value">24%</div>
+        <div class="metric-delta delta-up">↑ 2pts vs last mo.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Net Worth Trend</span>
+        <span class="tag tag-blue">12 months</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="nwChart" role="img" aria-label="Line chart showing net worth growth over 12 months from $67k to $84k">Net worth grew from $67,000 to $84,320 over the past 12 months.</canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Spending breakdown</span>
+        <span class="card-action">View all →</span>
+      </div>
+      <div class="breakdown">
+        <div class="breakdown-row"><span class="breakdown-label">Housing</span><div class="bar-track"><div class="bar-fill" style="width:42%;background:#378ADD;"></div></div><span class="breakdown-val">$1,460</span></div>
+        <div class="breakdown-row"><span class="breakdown-label">Food</span><div class="bar-track"><div class="bar-fill" style="width:22%;background:#1D9E75;"></div></div><span class="breakdown-val">$763</span></div>
+        <div class="breakdown-row"><span class="breakdown-label">Transport</span><div class="bar-track"><div class="bar-fill" style="width:14%;background:#EF9F27;"></div></div><span class="breakdown-val">$488</span></div>
+        <div class="breakdown-row"><span class="breakdown-label">Health</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:#D85A30;"></div></div><span class="breakdown-val">$347</span></div>
+        <div class="breakdown-row"><span class="breakdown-label">Leisure</span><div class="bar-track"><div class="bar-fill" style="width:8%;background:#7F77DD;"></div></div><span class="breakdown-val">$278</span></div>
+        <div class="breakdown-row"><span class="breakdown-label">Other</span><div class="bar-track"><div class="bar-fill" style="width:4%;background:#888780;"></div></div><span class="breakdown-val">$145</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Budget tracker</span>
+        <span class="tag tag-amber">17 days left</span>
+      </div>
+      <div>
+        <div class="budget-row"><span class="budget-cat">Groceries</span><div class="budget-track"><div class="budget-fill" style="width:68%;background:#1D9E75;"></div></div><span class="budget-pct">68%</span></div>
+        <div class="budget-row"><span class="budget-cat">Dining out</span><div class="budget-track"><div class="budget-fill" style="width:91%;background:#E24B4A;"></div></div><span class="budget-pct">91%</span></div>
+        <div class="budget-row"><span class="budget-cat">Transport</span><div class="budget-track"><div class="budget-fill" style="width:54%;background:#1D9E75;"></div></div><span class="budget-pct">54%</span></div>
+        <div class="budget-row"><span class="budget-cat">Shopping</span><div class="budget-track"><div class="budget-fill" style="width:77%;background:#EF9F27;"></div></div><span class="budget-pct">77%</span></div>
+        <div class="budget-row"><span class="budget-cat">Subscriptions</span><div class="budget-track"><div class="budget-fill" style="width:100%;background:#E24B4A;"></div></div><span class="budget-pct">100%</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Spending activity · Apr</span>
+      </div>
+      <div class="cal-labels"><span class="cal-label">Mon</span><span class="cal-label">Wed</span><span class="cal-label">Fri</span><span class="cal-label">Sun</span></div>
+      <div class="calendar" id="calGrid"></div>
+      <div style="display:flex;gap:6px;align-items:center;margin-top:8px;">
+        <span style="font-size:11px;color:#888780;">Low</span>
+        <div style="width:10px;height:10px;border-radius:2px;background:#E6F1FB;"></div>
+        <div style="width:10px;height:10px;border-radius:2px;background:#85B7EB;"></div>
+        <div style="width:10px;height:10px;border-radius:2px;background:#378ADD;"></div>
+        <div style="width:10px;height:10px;border-radius:2px;background:#185FA5;"></div>
+        <span style="font-size:11px;color:#888780;">High</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Right Panel -->
+  <div class="panel">
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">AI Insights</span>
+        <span class="tag tag-blue">3 new</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div class="insight">
+          <div class="insight-dot" style="background:#E24B4A;"></div>
+          <div><div class="insight-text">Dining budget nearly exhausted — 17 days remaining in April.</div><div class="insight-time">Review budget →</div></div>
+        </div>
+        <div class="insight">
+          <div class="insight-dot" style="background:#1D9E75;"></div>
+          <div><div class="insight-text">Savings rate up 2pts — on track for emergency fund goal.</div><div class="insight-time">See goals →</div></div>
+        </div>
+        <div class="insight">
+          <div class="insight-dot" style="background:#EF9F27;"></div>
+          <div><div class="insight-text">Subscriptions hit 100% of budget — review for cancellations.</div><div class="insight-time">View subscriptions →</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Savings goals</span></div>
+      <div>
+        <div class="goal-row">
+          <div class="goal-top"><span class="goal-name">Emergency Fund</span><span class="goal-amount">$8,200 / $10,000</span></div>
+          <div class="goal-track"><div class="goal-fill" style="width:82%;background:#1D9E75;"></div></div>
+          <div class="goal-sub">82% · $1,800 to go</div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-top"><span class="goal-name">Vacation</span><span class="goal-amount">$1,540 / $3,000</span></div>
+          <div class="goal-track"><div class="goal-fill" style="width:51%;background:#378ADD;"></div></div>
+          <div class="goal-sub">51% · on track for Aug</div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-top"><span class="goal-name">House down payment</span><span class="goal-amount">$22,000 / $60,000</span></div>
+          <div class="goal-track"><div class="goal-fill" style="width:37%;background:#7F77DD;"></div></div>
+          <div class="goal-sub">37% · 28 months projected</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Recent transactions</span><span class="card-action">See all →</span></div>
+      <div>
+        <div class="activity-item">
+          <div class="act-icon" style="background:#EAF3DE;">🛒</div>
+          <div class="act-info"><div class="act-name">Trader Joe's</div><div class="act-date">Apr 16 · Groceries</div></div>
+          <div class="act-amt delta-down">-$67</div>
+        </div>
+        <div class="activity-item">
+          <div class="act-icon" style="background:#E6F1FB;">💼</div>
+          <div class="act-info"><div class="act-name">Paycheck</div><div class="act-date">Apr 15 · Income</div></div>
+          <div class="act-amt delta-up">+$3,200</div>
+        </div>
+        <div class="activity-item">
+          <div class="act-icon" style="background:#FAEEDA;">🍜</div>
+          <div class="act-info"><div class="act-name">Sakura Ramen</div><div class="act-date">Apr 14 · Dining</div></div>
+          <div class="act-amt delta-down">-$38</div>
+        </div>
+        <div class="activity-item">
+          <div class="act-icon" style="background:#FCEBEB;">📱</div>
+          <div class="act-info"><div class="act-name">Netflix</div><div class="act-date">Apr 13 · Subscription</div></div>
+          <div class="act-amt delta-down">-$18</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-ask">Ask for a full analysis →</button>
+
+  </div>
+
+</div>
+
+<!-- Chart.js loaded BEFORE the script that uses it -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    // --- Net Worth Chart ---
+    var ctx = document.getElementById('nwChart');
+    if (ctx && typeof Chart !== 'undefined') {
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'],
+          datasets: [{
+            label: 'Net Worth',
+            data: [67200,69100,70800,71500,73200,74800,76100,77300,79000,80500,82100,84320],
+            borderColor: '#185FA5',
+            backgroundColor: 'rgba(55,138,221,0.08)',
+            borderWidth: 2,
+            pointRadius: 2,
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(ctx) { return '$' + ctx.raw.toLocaleString(); }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 11 }, color: '#888780' }
+            },
+            y: {
+              grid: { color: 'rgba(136,135,128,0.1)' },
+              ticks: {
+                font: { size: 11 },
+                color: '#888780',
+                callback: function(v) { return '$' + (v / 1000).toFixed(0) + 'k'; }
+              }
+            }
+          }
+        }
+      });
+    } else {
+      console.error('Chart.js failed to load or canvas not found.');
+    }
+
+    // --- Spending Heatmap Calendar ---
+    var cal = document.getElementById('calGrid');
+    if (cal) {
+      var intensities = [0,1,0,2,1,3,0,2,3,1,0,2,1,4,3,2,0,1,3,2,1,4,2,0,1,3,2,1,0,2];
+      var colors = ['#e9e8e1','#E6F1FB','#85B7EB','#378ADD','#185FA5'];
+      intensities.forEach(function(v) {
+        var d = document.createElement('div');
+        d.className = 'cal-day';
+        d.style.background = colors[v];
+        cal.appendChild(d);
+      });
+    }
+
+  });
+</script>
+
+</body>
+</html>
