@@ -63,7 +63,7 @@
     }
 
     /* =============================================
-       STAT BARS (Investments / Happiness / Army / Treasury)
+       STAT BARS (Investments / Happiness / career / savings)
     ============================================= */
     #stats {
       display: flex;
@@ -108,10 +108,10 @@
     }
 
     /* Each stat bar has its own colour */
-    .stat-bar.Investments   { background: #8db87a; }
-    .stat-bar.people   { background: #7aaad0; }
-    .stat-bar.army     { background: #d07a7a; }
-    .stat-bar.treasury { background: #d4aa50; }
+    .stat-bar.investments   { background: #8db87a; }
+    .stat-bar.happiness   { background: #7aaad0; }
+    .stat-bar.career     { background: #d07a7a; }
+    .stat-bar.savings { background: #d4aa50; }
 
     .stat-val {
       font-size: 11px;
@@ -301,7 +301,7 @@
         <div class="stat-icon">💸</div>
         <div class="stat-label">Investments</div>
         <div class="stat-bar-bg">
-          <div class="stat-bar Investments" id="bar-investments" style="width: 50%"></div>
+          <div class="stat-bar investments" id="bar-investments" style="width: 50%"></div>
         </div>
         <div class="stat-val" id="val-investments">50</div>
       </div>
@@ -310,27 +310,27 @@
         <div class="stat-icon">😊</div>
         <div class="stat-label">Happiness</div>
         <div class="stat-bar-bg">
-          <div class="stat-bar people" id="bar-people" style="width: 50%"></div>
+          <div class="stat-bar happiness" id="bar-happiness" style="width: 50%"></div>
         </div>
-        <div class="stat-val" id="val-people">50</div>
+        <div class="stat-val" id="val-happiness">50</div>
       </div>
 
       <div class="stat">
         <div class="stat-icon">🏢</div>
         <div class="stat-label">career</div>
         <div class="stat-bar-bg">
-          <div class="stat-bar army" id="bar-army" style="width: 50%"></div>
+          <div class="stat-bar career" id="bar-career" style="width: 50%"></div>
         </div>
-        <div class="stat-val" id="val-army">50</div>
+        <div class="stat-val" id="val-career">50</div>
       </div>
 
       <div class="stat">
         <div class="stat-icon">🤑</div>
-        <div class="stat-label">Saving</div>
+        <div class="stat-label">Savings</div>
         <div class="stat-bar-bg">
-          <div class="stat-bar treasury" id="bar-treasury" style="width: 50%"></div>
+          <div class="stat-bar savings" id="bar-savings" style="width: 50%"></div>
         </div>
-        <div class="stat-val" id="val-treasury">50</div>
+        <div class="stat-val" id="val-savings">50</div>
       </div>
     </div>
 
@@ -380,71 +380,71 @@
         name: "The Bishop",
         portrait: "👨‍⚖️",
         text: "Your Grace, shall we build a new cathedral to honour God?",
-        no:  { label: "Refuse",  effects: { Investments: -15, people:   5, army:  0, treasury:  10 } },
-        yes: { label: "Build it", effects: { Investments:  20, people:  -5, army:  0, treasury: -20 } }
+        no:  { label: "Refuse",  effects: { investments: -15, happiness:   5, career:  0, savings:  10 } },
+        yes: { label: "Build it", effects: { investments:  20, happiness:  -5, career:  0, savings: -20 } }
       },
       {
         name: "The General",
         portrait: "⚔️",
         text: "My liege, our army grows restless. Shall we march to war?",
-        no:  { label: "Stand down", effects: { Investments:  5, people:  5, army: -20, treasury:  10 } },
-        yes: { label: "To war!",    effects: { Investments:  0, people: -10, army:  20, treasury: -25 } }
+        no:  { label: "Stand down", effects: { investments:  5, happiness:  5, career: -20, savings:  10 } },
+        yes: { label: "To war!",    effects: { investments:  0, happiness: -10, career:  20, savings: -25 } }
       },
       {
         name: "The Farmer",
         portrait: "👨‍🌾",
         text: "The harvest is poor, Sire. Shall we lower taxes to help the peasants?",
-        no:  { label: "No mercy",   effects: { Investments:  0, people: -20, army:  0, treasury:  15 } },
-        yes: { label: "Lower them", effects: { Investments:  0, people:  20, army:  5, treasury: -15 } }
+        no:  { label: "No mercy",   effects: { investments:  0, happiness: -20, career:  0, savings:  15 } },
+        yes: { label: "Lower them", effects: { investments:  0, happiness:  20, career:  5, savings: -15 } }
       },
       {
         name: "The Treasurer",
         portrait: "🧮",
         text: "Your Majesty, a merchant offers a lucrative trade deal. Shall we accept?",
-        no:  { label: "Decline", effects: { Investments:  5, people:  0, army:  0, treasury:  -5 } },
-        yes: { label: "Accept",  effects: { Investments:  0, people: 10, army:  0, treasury:  20 } }
+        no:  { label: "Decline", effects: { investments:  5, happiness:  0, career:  0, savings:  -5 } },
+        yes: { label: "Accept",  effects: { investments:  0, happiness: 10, career:  0, savings:  20 } }
       },
       {
         name: "The Witch",
         portrait: "🧙‍♀️",
         text: "I can curse your enemies for a modest fee. What say you, my liege?",
-        no:  { label: "Begone!",    effects: { Investments:  10, people:  5, army: -5, treasury:   0 } },
-        yes: { label: "Do it",      effects: { Investments: -20, people: -5, army: 10, treasury: -15 } }
+        no:  { label: "Begone!",    effects: { investments:  10, happiness:  5, career: -5, savings:   0 } },
+        yes: { label: "Do it",      effects: { investments: -20, happiness: -5, career: 10, savings: -15 } }
       },
       {
         name: "The Knight",
         portrait: "🗡️",
         text: "A rival lord has insulted the crown. Shall I challenge him to a duel?",
-        no:  { label: "Let it go", effects: { Investments:  0, people: -10, army: -15, treasury:  5 } },
-        yes: { label: "Duel him",  effects: { Investments:  0, people:  10, army:  15, treasury: -10 } }
+        no:  { label: "Let it go", effects: { investments:  0, happiness: -10, career: -15, savings:  5 } },
+        yes: { label: "Duel him",  effects: { investments:  0, happiness:  10, career:  15, savings: -10 } }
       },
       {
         name: "The Jester",
         portrait: "🤡",
         text: "Sire! A grand festival would cheer your weary subjects!",
-        no:  { label: "Cancel it",  effects: { Investments:  5, people: -10, army:  0, treasury:  10 } },
-        yes: { label: "Let's feast", effects: { Investments: -5, people:  20, army:  5, treasury: -20 } }
+        no:  { label: "Cancel it",  effects: { investments:  5, happiness: -10, career:  0, savings:  10 } },
+        yes: { label: "Let's feast", effects: { investments: -5, happiness:  20, career:  5, savings: -20 } }
       },
       {
         name: "The Spy",
         portrait: "🕵️",
         text: "I have uncovered a conspiracy. Shall I make the traitors... disappear?",
-        no:  { label: "Spare them",  effects: { Investments:  10, people:  5, army: -10, treasury:   0 } },
-        yes: { label: "Disappear",   effects: { Investments: -10, people: -10, army:  15, treasury:  -5 } }
+        no:  { label: "Spare them",  effects: { investments:  10, happiness:  5, career: -10, savings:   0 } },
+        yes: { label: "Disappear",   effects: { investments: -10, happiness: -10, career:  15, savings:  -5 } }
       },
       {
         name: "The Scholar",
         portrait: "📚",
         text: "Shall we fund a great library for the advancement of knowledge?",
-        no:  { label: "No need",  effects: { Investments:  5, people:  -5, army:  0, treasury:  10 } },
-        yes: { label: "Fund it",  effects: { Investments: -10, people:  15, army:  0, treasury: -15 } }
+        no:  { label: "No need",  effects: { investments:  5, happiness:  -5, career:  0, savings:  10 } },
+        yes: { label: "Fund it",  effects: { investments: -10, happiness:  15, career:  0, savings: -15 } }
       },
       {
         name: "The Abbot",
         portrait: "🙏",
         text: "A pilgrimage to the Holy Land would prove your piety to all. Will you go?",
-        no:  { label: "Stay home",  effects: { Investments: -15, people:  5, army:   0, treasury:  10 } },
-        yes: { label: "Pilgrimage", effects: { Investments:  25, people: -5, army: -15, treasury: -20 } }
+        no:  { label: "Stay home",  effects: { investments: -15, happiness:  5, career:   0, savings:  10 } },
+        yes: { label: "Pilgrimage", effects: { investments:  25, happiness: -5, career: -15, savings: -20 } }
       }
     ];
 
@@ -454,20 +454,20 @@
     //    or 100 (high).
     // -----------------------------------------------
     const deathReasons = {
-      Investments: {
+      investments: {
         low:  "You've depleted your investments. Without capital, you've lost all support.",
         high: "Your excessive investments have led to financial ruin. You're left with nothing."
       },
-      people: {
+      happiness: {
         low:  "Starving and furious, the peasants stormed the castle. The revolution was swift.",
         high: "The people loved you so much they smothered you with adoration — literally."
       },
-      army: {
-        low:  "With no army left, your enemies invaded unchallenged. The kingdom fell.",
-        high: "Your generals, drunk on power, staged a military coup. You were the first to go."
+      career: {
+        low:  "Your reputation has crumbled. Without influence, you've lost all power.",
+        high: "Your rise to power was meteoric. Now, your enemies plot your downfall."
       },
-      treasury: {
-        low:  "The treasury ran dry. Unable to pay your guards, they let the assassins in.",
+      savings: {
+        low:  "You've run out of money. Unable to pay your subjects, they turn against you.",
         high: "Your obscene wealth attracted every bandit and baron. You were ransomed to death."
       }
     };
@@ -475,7 +475,7 @@
     // -----------------------------------------------
     // 3. GAME STATE
     // -----------------------------------------------
-    let stats = { Investments: 50, people: 50, army: 50, treasury: 50 };
+    let stats = { investments: 50, happiness: 50, career: 50, savings: 50 };
     let year  = 1;
     let cardQueue   = [];
     let hintShown   = false;
@@ -570,7 +570,7 @@
     // 8. CHECK IF ANY STAT HIT 0 OR 100
     // -----------------------------------------------
     function checkDeath() {
-      for (const stat of ['Investments', 'people', 'army', 'treasury']) {
+      for (const stat of ['investments', 'happiness', 'career', 'savings']) {
         if (stats[stat] <= 0)   { showDeath(stat, 'low');  return; }
         if (stats[stat] >= 100) { showDeath(stat, 'high'); return; }
       }
@@ -590,7 +590,7 @@
     // 10. RESTART BUTTON
     // -----------------------------------------------
     document.getElementById('restart-btn').addEventListener('click', () => {
-      stats     = { Investments: 50, people: 50, army: 50, treasury: 50 };
+      stats     = { investments: 50, happiness: 50, career: 50, savings: 50 };
       year      = 1;
       hintShown = false;
 
