@@ -11,9 +11,9 @@ _We are competing in Theme track, H&R Block track, Security Benefit track, Best 
 **How we built it**
 
 We developed the interactive simulation using standard web technologies: HTML, CSS, and JavaScript.
-* **JavaScript:**Handles the core game loop, state management of the four resource bars, random generation of life scenarios, and calculates the quantitative impact of every player choice.
+* **JavaScript:** Handles the core game loop, state management of the four resource bars, random generation of life scenarios, and calculates the quantitative impact of every player choice.
 * **HTML & CSS:** Used to design a clean, responsive, and intuitive interface that provides instant visual feedback when resource levels change, targeting a strong UI/UX.
-* **Multimedia & Content:** We integrated catchy background music to maintain user engagement and embedded educational tooltips/advice to actively teach financial concepts alongside the gameplay.
+* **Multimedia & Content:** We integrated catchy background music to maintain user engagement and embedded educational tooltips/advice to actively teach financial concepts alongside the gameplay. To make the game fun, funny, and highly polished, we incorporated multiple sound effects for interactions like clicking, active gameplay, and the "game over" dying screen. We creatively utilized ElevenLabs to generate these unique sound effects, which significantly elevated the overall user experience and directly tied into the ElevenLabs track.
 
 **Challenges we faced**
 
