@@ -362,6 +362,14 @@
 </head>
 <body>
 
+<audio id="game-over-sound">
+  <source src="faah-sound.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="swipe-sound">
+  <source src="ka-ching.mp3" type="audio/mpeg">
+</audio>
+
 <audio id="click-sound">
   <source src="click sound.mp3" type="audio/mpeg">
 </audio>
@@ -401,9 +409,7 @@
   });
 </script>
 
-<audio autoplay loop id="bg-music">
-  <source src="Apple.mp3" type="audio/mpeg">
-</audio>
+
 
 <script>
   // This listens for the very first click anywhere on the page
@@ -783,6 +789,11 @@
       document.getElementById('death-title').textContent    = 'You lasted ' + year + ' weeks';
       document.getElementById('death-reason').textContent   = deathReasons[stat][type];
 
+      // --- NEW: Play the game over sound instantly ---
+      const gameOverSound = document.getElementById('game-over-sound');
+      gameOverSound.currentTime = 0;
+      gameOverSound.play();
+
       // Save the score when the player dies
       saveScore(year);
     }
@@ -875,8 +886,16 @@
       isDragging = false;
       cardEl.classList.remove('dragging');
 
+      // Grab the swipe sound element
+      const swipeSound = document.getElementById('swipe-sound');
+
       if (currentX < -THRESHOLD) {
         // --- Swiped LEFT → No ---
+        
+        // Reset and play the sound instantly
+        swipeSound.currentTime = 0; 
+        swipeSound.play();
+
         cardEl.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
         cardEl.style.transform  = 'translateX(-500px) rotate(-20deg)';
         cardEl.style.opacity    = '0';
@@ -884,6 +903,11 @@
 
       } else if (currentX > THRESHOLD) {
         // --- Swiped RIGHT → Yes ---
+        
+        // Reset and play the sound instantly
+        swipeSound.currentTime = 0; 
+        swipeSound.play();
+
         cardEl.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
         cardEl.style.transform  = 'translateX(500px) rotate(20deg)';
         cardEl.style.opacity    = '0';

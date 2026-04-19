@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Don't Go Broke</title>
+  <style>
+    /* Remove all margins so the game fills the whole screen */
+    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #042e1b; }
+    iframe { width: 100%; height: 100%; border: none; display: block; }
+  </style>
+</head>
+<body>
+
+  <audio autoplay loop id="bg-music">
+    <source src="Apple.mp3" type="audio/mpeg">
+  </audio>
+
+  <iframe src="homepage.html" name="gameFrame"></iframe>
+
+  <script>
+    // Force music to play on the very first click anywhere
+    document.body.addEventListener('click', function() {
+      var audio = document.getElementById("bg-music");
+      if (audio.paused) audio.play();
+    }, { once: true });
+  </script>
+
+</body>
+</html>
