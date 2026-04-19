@@ -7,6 +7,45 @@
 </head>
 <body>
 
+<audio id="click-sound">
+  <source src="click sound.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  // Grab the click audio element
+  const clickSound = document.getElementById('click-sound');
+
+  // Listen for a click ANYWHERE on the entire webpage
+  document.body.addEventListener('click', function(event) {
+    
+    // 1. Always play the sound, no matter what they clicked
+    clickSound.currentTime = 0; 
+    clickSound.play();
+
+    // 2. Check if the thing they clicked was a link (an <a> tag)
+    // .closest('a') ensures it counts even if they click an image inside a link
+    const targetLink = event.target.closest('a');
+
+    // 3. If it WAS a link, do the delay trick so the sound has time to play
+    if (targetLink && targetLink.href) {
+      
+      // Stop the instant page load
+      event.preventDefault(); 
+      
+      // Get the URL
+      const destination = targetLink.href;
+
+      // Wait 300 milliseconds, then load the new page
+      setTimeout(function() {
+        window.location.href = destination;
+      }, 300); 
+    }
+    
+    // If it WASN'T a link, the code just naturally stops here, 
+    // the sound plays, and they stay on the current page.
+  });
+</script>
+
   <a href="homepage.html" id="home-btn">🏠 Home</a>
 
   <div class="video-container">
